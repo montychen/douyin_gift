@@ -1,0 +1,16 @@
+.\out\tft_init.o: ..\..\Source\tft_init.c
+.\out\tft_init.o: ..\..\Source\tft_init.h
+.\out\tft_init.o: ..\..\Source\public.h
+.\out\tft_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\apm32f0xx.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cm0plus.h
+.\out\tft_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\system_apm32f0xx.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_adc.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_gpio.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_rcm.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_misc.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_tmr.h
+.\out\tft_init.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_spi.h

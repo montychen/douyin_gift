@@ -1,0 +1,16 @@
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\tasks.c
+.\out\tasks.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\out\tasks.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\FreeRTOS.h
+.\out\tasks.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\out\tasks.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\tasks.o: ..\..\Include\FreeRTOSConfig.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\projdefs.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\portable.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\deprecated_definitions.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\portable\RVDS\ARM_CM0\portmacro.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\mpu_wrappers.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\task.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\list.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\timers.h
+.\out\tasks.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\stack_macros.h

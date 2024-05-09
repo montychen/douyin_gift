@@ -1,0 +1,64 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.36.0.0
+Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: ÊµÊ© Ã¾ºïÍõ, gfhgjbbbbbbb, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.36.0.0
+Toolchain Path:  d:\aSam\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.36.0.0
+Dialog DLL:      DARMCM1.DLL V1.19.4.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TARMCM1.DLL V1.14.4.0
+ 
+<h2>Project:</h2>
+D:\Keil5\APM32F0xx_SDK_v1.7\Examples\RTOS\FreeRTOS\Project\MDK\RTOS_FreeRTOS.uvprojx
+Project File Date:  05/04/2024
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'd:\aSam\Keil_v5\ARM\ARMCC\Bin'
+Build target 'APM32F030_FreeRTOS'
+compiling main.c...
+..\..\Source\main.c(154): warning:  #177-D: variable "tmp"  was declared but never referenced
+  		int tmp = 0;
+..\..\Source\main.c(335): warning:  #550-D: variable "timeout"  was set but never used
+  		int timeout = 0;
+..\..\Source\main.c(336): warning:  #177-D: variable "val"  was declared but never referenced
+  		static int val = 0;
+..\..\Source\main.c(358): warning:  #177-D: variable "keyData_o"  was declared but never referenced
+  		static u16 keyData_o = 0x5000;
+..\..\Source\main.c(362): warning:  #177-D: variable "retry"  was declared but never referenced
+  		static u16 retry = 0;
+..\..\Source\main.c(363): warning:  #177-D: variable "keyData_i"  was declared but never referenced
+  		static u8 keyData_i = 0;
+..\..\Source\main.c(96): warning:  #177-D: variable "xHandleTaskLedToggle"  was declared but never referenced
+  static TaskHandle_t xHandleTaskLedToggle = NULL;
+..\..\Source\main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=13132 RO-data=3160 RW-data=408 ZI-data=6512  
+".\Out\APM32F030_FreeRTOS.axf" - 0 Error(s), 7 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Geehy
+                https://www.geehy.com/uploads/tool/Geehy.APM32F0xx_DFP.1.0.9.pack
+                Geehy.APM32F0xx_DFP.1.0.9
+                Geehy Semiconductor APM32F0xx Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+  d:\aSam\Keil_v5\Packs\Geehy\APM32F0xx_DFP\1.0.9\Device\Device\Geehy\APM32F0xx\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:00
+</pre>
+</body>
+</html>

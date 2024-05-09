@@ -1,0 +1,16 @@
+.\out\key.o: ..\..\Source\key.c
+.\out\key.o: ..\..\Source\key.h
+.\out\key.o: ..\..\Source\public.h
+.\out\key.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\out\key.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\apm32f0xx.h
+.\out\key.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cm0plus.h
+.\out\key.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\key.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h
+.\out\key.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h
+.\out\key.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\system_apm32f0xx.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_adc.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_gpio.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_rcm.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_misc.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_tmr.h
+.\out\key.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_spi.h

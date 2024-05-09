@@ -1,0 +1,16 @@
+.\out\board.o: ..\..\..\..\..\Boards\Board.c
+.\out\board.o: ..\..\..\..\..\Boards\Board.h
+.\out\board.o: ..\..\..\..\..\Boards\Board_APM32F030_MINI/inc/Board_APM32F030_MINI.h
+.\out\board.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\apm32f0xx.h
+.\out\board.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cm0plus.h
+.\out\board.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\board.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h
+.\out\board.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h
+.\out\board.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\system_apm32f0xx.h
+.\out\board.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_gpio.h
+.\out\board.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_usart.h
+.\out\board.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_rcm.h
+.\out\board.o: ..\..\..\..\..\Boards\Board_APM32F030_MINI/src/Board_APM32F030_MINI.c
+.\out\board.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\out\board.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_eint.h
+.\out\board.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_misc.h

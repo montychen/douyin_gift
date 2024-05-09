@@ -1,0 +1,13 @@
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\croutine.c
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\FreeRTOS.h
+.\out\croutine.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\out\croutine.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\croutine.o: ..\..\Include\FreeRTOSConfig.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\projdefs.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\portable.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\deprecated_definitions.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\portable\RVDS\ARM_CM0\portmacro.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\mpu_wrappers.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\task.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\list.h
+.\out\croutine.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\croutine.h

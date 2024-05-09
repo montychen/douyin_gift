@@ -1,0 +1,15 @@
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\event_groups.c
+.\out\event_groups.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\FreeRTOS.h
+.\out\event_groups.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\out\event_groups.o: d:\aSam\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\event_groups.o: ..\..\Include\FreeRTOSConfig.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\projdefs.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\portable.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\deprecated_definitions.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\portable\RVDS\ARM_CM0\portmacro.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\mpu_wrappers.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\task.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\list.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\timers.h
+.\out\event_groups.o: ..\..\..\..\..\Middlewares\FreeRTOS\FreeRTOSv202012.00\FreeRTOS\Source\include\event_groups.h

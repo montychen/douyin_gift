@@ -1,0 +1,16 @@
+.\out\spi_flash.o: ..\..\Source\spi_flash.c
+.\out\spi_flash.o: ..\..\Source\spi_flash.h
+.\out\spi_flash.o: ..\..\Source\public.h
+.\out\spi_flash.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\apm32f0xx.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cm0plus.h
+.\out\spi_flash.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\Device\Geehy\APM32F0xx\Include\system_apm32f0xx.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_adc.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_gpio.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_rcm.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_misc.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_tmr.h
+.\out\spi_flash.o: ..\..\..\..\..\Libraries\APM32F0xx_StdPeriphDriver\inc\apm32f0xx_spi.h
