@@ -4,6 +4,7 @@
 ```bash
 pip install protobuf==3.20.2
 pip install websocket-client
+pip install pyserial
 pip install tkinter       # 这个会报错， 不过好像也没关系
 pip install pyinstaller
 pip install APScheduler
