@@ -11,8 +11,6 @@ import threading
 import time
 import serial.tools.list_ports
 import serial
-from apscheduler.schedulers.blocking import BlockingScheduler
-from datetime import datetime
 
 """Generated protocol buffer code."""
 from google.protobuf.internal import builder as _builder
@@ -86,10 +84,10 @@ def live_info(url):
     # wss_url=f'wss://webcast5-ws-web-hl.douyin.com/webcast/im/push/v2/?app_name=douyin_web&version_code=180800&webcast_sdk_version=1.0.8&update_version_code=1.0.8&compress=gzip&device_platform=web&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Mozilla&browser_version=5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/114.0.0.0%20Safari/537.36&browser_online=true&tz_name=Asia/Shanghai&cursor=r-1_d-1_u-1_h-1_t-1692620078416&internal_ext=internal_src:dim|wss_push_room_id:{room_id}|wss_push_did:7268909383177553447|dim_log_id:202308212014381EDBA25C71790E20C55A|first_req_ms:1692620078342|fetch_time:1692620078416|seq:1|wss_info:0-1692620078416-0-0|wrds_kvs:WebcastRoomRankMessage-1692619896739112291_WebcastRoomStatsMessage-1692620076734383562&host=https://live.douyin.com&aid=6383&live_id=1&did_rule=3&endpoint=live_pc&support_wrds=1&user_unique_id=&im_path=/webcast/im/fetch/&identity=audience&room_id={room_id}&heartbeatDuration=0&signature={sign["X-Bogus"]}'
     ttwid = res.cookies['ttwid']
     return room_id, room_title, room_user_count, wss_url, ttwid
-def on_open(ws, content):
+def on_open(ws):
     print('on_open...')
 def on_message(ws, content):
-    global balls
+    global balls,gift_tmp_array,gift_tmp_array_idx,ff
 
     frame = PushFrame()
     frame.ParseFromString(content)
@@ -113,9 +111,9 @@ def on_message(ws, content):
     for message in response.messagesList:
         if message.method not in needs:
             continue
+        #print(message)
         data['message'].append(parse_message(message))
     if data['message'] != []:
-        #print(data['message'])
         for i in data['message']:
             #key = i['id']
             #if key not in uid_list:
@@ -123,22 +121,39 @@ def on_message(ws, content):
             #else:
             #    continue
             #write_to_log(str(i))
-            write_to_log(i['nickname'] + " 发送 " + i['content'])
-            gei = i['content'].find("个")
-            if gei > 0:
-                gei_x = i['content'][0:gei]
-                gei_content = i['content'][gei+1:]
-                if gei_content in gift_txt_array:
-                    gift_txt_array.index(gei_content)
-                    balls += int(gei_x) * int(gift_ball[gift_txt_array.index(gei_content)])
+
+            tmp4 = i['nickname'] + i['content'] + str(i['unique_id'])
+            if tmp4 not in gift_tmp_array:
+
+                write_to_log(i['nickname'] + " 发送 " + i['content'])
+                print(i)
+                gei = i['content'].find("个")
+                if gei > 0:
+                    gei_x = i['content'][0:gei]
+                    gei_content = i['content'][gei+1:]
+                    if gei_content in gift_txt_array:
+                        balls += int(gei_x) * int(gift_ball[gift_txt_array.index(gei_content)])
 
 
-            ff.write(str(i))
-            ff.write('\n')
+                ff.write(str(i))
+                ff.write('\n')
+
+                gift_tmp_array[gift_tmp_array_idx] = tmp4
+                gift_tmp_array_idx = gift_tmp_array_idx + 1
+                if gift_tmp_array_idx >= 20:
+                    gift_tmp_array_idx = 0
+
+
+
 
 def on_error(ws, content):
+    print("on_error")
     print(content)
-def on_close(ws, content):
+    write_to_log("=====================>程序报错：请手动停止采集再启动======")
+    write_to_log(str(content))
+
+
+def on_close(ws, content, ppp):
     print("on_close")
 
 def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
@@ -170,6 +185,7 @@ def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
     elif message.method == 'WebcastGiftMessage':
         GiftMessage = webcast_proto2_pb2.rwebcastimGiftMessage()
         GiftMessage.ParseFromString(message.payload)
+        #print(GiftMessage)
         data = {
             'type': 'WebcastGiftMessage',
             'content': GiftMessage.common.describe.split(" ")[-1],
@@ -178,7 +194,7 @@ def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
             'id': GiftMessage.user.id,  # 用户id
             'short_id': GiftMessage.user.shortId,  # 用户短id
             'gender': GiftMessage.user.gender,  # 1男2女0未知
-            'unique_id': GiftMessage.user.displayId,  # 抖音id
+            'unique_id': GiftMessage.groupId,       #.user.displayId,  # 抖音id
         }
         return data
     # 点赞
@@ -392,12 +408,12 @@ def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
             '''
 def run(web_url):
     global ws
-    for i in web_url.split(','):
-        # web_url = "https://live.douyin.com/567789235524"
-        room_id, room_title, room_user_count, wss_url, ttwid = live_info(i)
-        ws = WebSocketApp(
-            url=wss_url,
-            header={
+#    for i in web_url.split(','):
+    # web_url = "https://live.douyin.com/567789235524"
+    room_id, room_title, room_user_count, wss_url, ttwid = live_info(web_url)
+    ws = WebSocketApp(
+        url=wss_url,
+        header={
                 'Pragma': 'no-cache',
                 'Origin': 'https://live.douyin.com',
                 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
@@ -408,23 +424,29 @@ def run(web_url):
                 'Connection': 'Upgrade',
                 'Sec-WebSocket-Version': '13',
                 'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
-            },
-            cookie=f"ttwid={ttwid}",
-            on_open=on_open,
-            on_message=on_message,
-            on_error=on_error,
-            on_close=on_close,
-        )
-        threading.Thread(target=ws.run_forever).start()
+        },
+        cookie=f"ttwid={ttwid}",
+        on_open=on_open,
+        on_message=on_message,
+        on_error=on_error,
+        on_close=on_close,
+    )
+    wst = threading.Thread(target=ws.run_forever)
+    wst.setDaemon(True)
+    wst.start()
 
 # 输出时间
 
+send_job_run = False
+send_job_isrunning = False
 def send_job():
+    global send_job_run,send_job_isrunning
+    print("send_job start.")
+    send_job_isrunning = True
 
     global balls
-    while True:
+    while send_job_run:
         if balls > 0:
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             if len(combobox['values']) > 0:
                 selection = combobox.get()
                 ser = serial.Serial(selection, 9600)
@@ -442,32 +464,70 @@ def send_job():
 
                 ser.close()
             else:
+                time.sleep(1)
                 write_to_log("==>没有串口设备")
 
+    send_job_isrunning = False
+    print("send_job stop.")
 
+
+t_send = threading.Thread()
 
 def start_collection():
     # global redis_client,redis_client2
-    global uid_list,ff
+    global uid_list,ff,send_job_run,t_send,balls
+
+    if send_job_isrunning:
+        write_to_log("===============================>发球中，请勿重复进入<==================")
+        return
+
     uid_list=[]
     url = live_room_entry.get()
+    if len(url) == 0:
+        write_to_log("===============================>请输入直播间地址<==================")
+        return
 
+    write_to_log("===============================>启动中...<==================")
+    balls = 0
     filename = url.split('/')[-1] + '.txt'
 
     ff = open(filename, 'a+',encoding='utf8')
 
-    threading.Thread(target=run, args=(url,)).start()
-    threading.Thread(target=send_job, args=()).start()
+    #等待发送线程结束
+    if t_send:
+        while send_job_isrunning:
+            send_job_run = False
 
+    send_job_run = True
+    t_send = threading.Thread(target=run, args=(url,))
+    t_send.setDaemon(True)
+    t_send.start()
+    print("t_send.start()")
+
+    t1 = threading.Thread(target=send_job, args=())
+    t1.setDaemon(True)
+    t1.start()
+    print("t1.start()")
+    write_to_log("===============================>启动成功<==================")
 
 def stop_collection():
-    if sched:
-        sched.shutdown()
-
+    global send_job_run,t_send,balls
     # 停止 WebSocket 连接
     # global ws
     if ws:
         ws.close()
+
+    #等待发送线程结束
+    if t_send:
+        write_to_log("===============================>发球中，请等待结束<==================")
+        while send_job_isrunning:
+            send_job_run = False
+    write_to_log("===============================>发球已结束<==================")
+    send_job_run = False
+
+    balls = 0
+    print("stop_collection finished.")
+
 
 
 com_ports = []
@@ -491,6 +551,8 @@ def on_selection_change(event):
 gift_txt_array = ["小心心", "你最好看","称心如意", "棒棒糖", "入团卡", "玫瑰", "鲜花", "粉丝团灯牌"]
 gift_ball = ["1","2","3","4","5","6","6","7"]
 balls = 0
+gift_tmp_array = ["","","","","","","","","","","","","","","","","","","",""]
+gift_tmp_array_idx = 0
 
 def comm_add_to_list():
     gift_txt = comm_gift_entry.get()
@@ -580,7 +642,6 @@ start_button.pack(side=tk.LEFT, expand=True, fill=tk.X)
 stop_button = tk.Button(button_frame, text="停止采集", command=stop_collection)
 stop_button.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
-sched = BlockingScheduler()
 
 if __name__ == '__main__':
     root.mainloop()
