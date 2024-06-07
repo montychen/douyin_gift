@@ -11,6 +11,8 @@ import threading
 import time
 import serial.tools.list_ports
 import serial
+import json
+from pathlib import Path
 
 """Generated protocol buffer code."""
 from google.protobuf.internal import builder as _builder
@@ -87,7 +89,7 @@ def live_info(url):
 def on_open(ws):
     print('on_open...')
 def on_message(ws, content):
-    global balls,gift_tmp_array,gift_tmp_array_idx,ff
+    global balls,gift_tmp_array,gift_tmp_array_idx,ff,chat_txt_array,chat_ball,gift_txt_array,gift_ball
 
     frame = PushFrame()
     frame.ParseFromString(content)
@@ -96,8 +98,7 @@ def on_message(ws, content):
     # 根据Response+gzip解压数据，生成数据对象
     response = Response()
     response.ParseFromString(origin_bytes)
-    #needs =['WebcastChatMessage','WebcastGiftMessage']
-    needs = ['WebcastGiftMessage']
+    needs =['WebcastChatMessage','WebcastGiftMessage']
 
     data = dict()
     data['message'] = list()
@@ -122,26 +123,28 @@ def on_message(ws, content):
             #    continue
             #write_to_log(str(i))
 
-            tmp4 = i['nickname'] + i['content'] + str(i['unique_id'])
-            if tmp4 not in gift_tmp_array:
+            if i['type'] == "WebcastChatMessage":
+                if i['content'] in chat_txt_array:
+                    write_to_log(i['nickname'] + " 发送弹幕 " + i['content'])
+                    balls += int(chat_ball[chat_txt_array.index(i['content'])])
 
-                write_to_log(i['nickname'] + " 发送 " + i['content'])
-                print(i)
-                gei = i['content'].find("个")
-                if gei > 0:
-                    gei_x = i['content'][0:gei]
-                    gei_content = i['content'][gei+1:]
-                    if gei_content in gift_txt_array:
-                        balls += int(gei_x) * int(gift_ball[gift_txt_array.index(gei_content)])
+            elif i['type'] == "WebcastGiftMessage":
+                tmp4 = i['nickname'] + i['content'] + str(i['unique_id'])
+                if tmp4 not in gift_tmp_array:
+                    write_to_log(i['nickname'] + " 发送礼物 " + i['content'])
+                    gei = i['content'].find("个")
+                    if gei > 0:
+                        gei_x = i['content'][0:gei]
+                        gei_content = i['content'][gei+1:]
+                        if gei_content in gift_txt_array:
+                            balls += int(gei_x) * int(gift_ball[gift_txt_array.index(gei_content)])
 
-
-                ff.write(str(i))
-                ff.write('\n')
-
-                gift_tmp_array[gift_tmp_array_idx] = tmp4
-                gift_tmp_array_idx = gift_tmp_array_idx + 1
-                if gift_tmp_array_idx >= 20:
-                    gift_tmp_array_idx = 0
+                    ff.write(str(i))
+                    ff.write('\n')
+                    gift_tmp_array[gift_tmp_array_idx] = tmp4
+                    gift_tmp_array_idx = gift_tmp_array_idx + 1
+                    if gift_tmp_array_idx >= 20:
+                        gift_tmp_array_idx = 0
 
 
 
@@ -457,7 +460,7 @@ def send_job():
                 ser.write(message)
                 balls_tmp = balls
                 balls = 0
-                write_to_log("==>串口发送释放" + str(balls_tmp) + "个小球")
+                write_to_log("  ==>串口发送释放" + str(balls_tmp) + "个小球\n")
                 time.sleep(2.8 * balls_tmp)
                 message = bytes.fromhex('A0 01 00 A1')
                 ser.write(message)
@@ -548,34 +551,83 @@ def on_selection_change(event):
     # 关闭串口
     ser.close()
 
-gift_txt_array = ["小心心", "你最好看","称心如意", "棒棒糖", "入团卡", "玫瑰", "鲜花", "粉丝团灯牌"]
-gift_ball = ["1","2","3","4","5","6","6","7"]
+gift_txt_array = []
+gift_ball = []
+chat_txt_array = []
+chat_ball = []
 balls = 0
 gift_tmp_array = ["","","","","","","","","","","","","","","","","","","",""]
 gift_tmp_array_idx = 0
 
+
+
 def comm_add_to_list():
+    global config1
     gift_txt = comm_gift_entry.get()
     if len(gift_txt) == 0:
         return
-    comm_table.insert(tkinter.END, f"收到 “" + gift_txt + "” 释放 " + comm_ball_combobox.get() + "个球")
+    comm_table.insert(tkinter.END, f"收到礼物 “" + gift_txt + "” 释放 " + comm_ball_combobox.get() + "个球")
     gift_txt_array.append(gift_txt)
     gift_ball.append(comm_ball_combobox.get())
-    print(gift_ball)
+    gift = {"gift_txt":gift_txt,"gift_ball":comm_ball_combobox.get(),"gif_type": "WebcastGiftMessage"}
+    config1.append(gift)
+    with open('config1.json', 'w', encoding='utf8') as file:
+        json.dump(config1, file, indent=4)
+
+def comm_add_to_list2():
+    global config2
+    chat_txt = comm_gift_entry2.get()
+    if len(chat_txt) == 0:
+        return
+    comm_table2.insert(tkinter.END, f"收到礼物 “" + chat_txt + "” 释放 " + comm_ball_combobox2.get() + "个球")
+    chat_txt_array.append(chat_txt)
+    chat_ball.append(comm_ball_combobox2.get())
+    chat = {"gift_txt":chat_txt,"gift_ball":comm_ball_combobox2.get(),"gif_type": "WebcastChatMessage"}
+    config2.append(chat)
+    with open('config2.json', 'w', encoding='utf8') as file:
+        json.dump(config2, file, indent=4)
+
 
 def comm_remove_from_list():
+    global config1
     if(len(comm_table.curselection())>0):
         gift_txt_array.pop(comm_table.curselection()[0])
         gift_ball.pop(comm_table.curselection()[0])
+        config1.pop(comm_table.curselection()[0])
+        with open('config1.json', 'w', encoding='utf8') as file:
+            json.dump(config1, file, indent=4)
 
         comm_table.delete(comm_table.curselection())
-        print(gift_ball)
 
 
+def comm_remove_from_list2():
+    global config2
+    if(len(comm_table2.curselection())>0):
+        chat_txt_array.pop(comm_table2.curselection()[0])
+        chat_ball.pop(comm_table2.curselection()[0])
+        config2.pop(comm_table2.curselection()[0])
+        with open('config2.json', 'w', encoding='utf8') as file:
+            json.dump(config2, file, indent=4)
+
+        comm_table2.delete(comm_table2.curselection())
+
+
+
+
+file_tmp = Path("config1.json")
+if file_tmp.exists() == False:
+    config1 = [{"gift_txt":"小心心", "gift_ball":"1","gif_type": "WebcastGiftMessage"}]
+    with open('config1.json', 'w', encoding='utf8') as file:
+        json.dump(config1, file, indent=4)
+file_tmp = Path("config2.json")
+if file_tmp.exists() == False:
+    config2 = [{"gift_txt":"666", "gift_ball":"1","gif_type": "WebcastChatMessage"}]
+    with open('config2.json', 'w', encoding='utf8') as file:
+        json.dump(config2, file, indent=4)
 
 root = tk.Tk()
 root.title("直播间采集")
-root.geometry("800x600")
+root.geometry("910x600")
 logs = {}
 
 live_room_frame = tk.Frame(root)
@@ -584,44 +636,76 @@ live_room_label = tk.Label(live_room_frame, text="直播间链接:")
 live_room_label.pack(side=tk.LEFT)
 live_room_entry = tk.Entry(live_room_frame, width=50, font=("Helvetica", 16))
 live_room_entry.pack(side=tk.LEFT, expand=True, fill=tk.X)
-
-comm_frame = tk.Frame(root)
-comm_frame.pack(fill=tk.X, padx=10, pady=5)
-combobox = ttk.Combobox(comm_frame, width=20)
+combobox = ttk.Combobox(live_room_frame, width=20)
 combobox["values"] = com_ports  # 设置下拉列表的值
 combobox.bind("<<ComboboxSelected>>", on_selection_change)  # 绑定事件，当选项变更时触发
 if len(combobox['values']) > 0:
     combobox.current(0)  # 设置默认选中第一项
-combobox.pack(side=tk.LEFT, fill=tk.X)
-comm_gift_label = tk.Label(comm_frame, text="收到礼物:")
+combobox.pack(side=tk.LEFT, fill=tk.X, padx=10)
+
+comm_frame2 = tk.Frame(root)
+comm_frame2.pack(fill=tk.X, padx=0, pady=5)
+comm_gift_label = tk.Label(comm_frame2, text="收到礼物:")
 comm_gift_label.pack(side=tk.LEFT, padx=10)
-comm_gift_entry = tk.Entry(comm_frame, width=20)
+comm_gift_entry = tk.Entry(comm_frame2, width=20)
 comm_gift_entry.pack(side=tk.LEFT, fill=tk.X)
-comm_ball_label = tk.Label(comm_frame, text="释放球:")
+comm_ball_label = tk.Label(comm_frame2, text="释放球:")
 comm_ball_label.pack(side=tk.LEFT, padx=10)
-comm_ball_combobox = ttk.Combobox(comm_frame, width=5)
+comm_ball_combobox = ttk.Combobox(comm_frame2, width=5)
 comm_ball_combobox["values"] = (1,2,3,4,5,6,7,8,9)  # 设置下拉列表的值
 comm_ball_combobox.current(0)  # 设置默认选中第一项
 comm_ball_combobox.pack(side=tk.LEFT, fill=tk.X, padx=0)
-comm_balls_label = tk.Label(comm_frame, text="个")
+comm_balls_label = tk.Label(comm_frame2, text="个")
 comm_balls_label.pack(side=tk.LEFT, padx=0)
-comm_button = tk.Button(comm_frame, text="添加", command=comm_add_to_list, width=5)
-comm_button.pack(side=tk.LEFT, fill=tk.X, padx=10)
+comm_button = tk.Button(comm_frame2, text="添加", command=comm_add_to_list, width=5)
+comm_button.pack(side=tk.LEFT, fill=tk.X, padx=20)
+
+
+comm_gift_label2 = tk.Label(comm_frame2, text="收到弹幕:")
+comm_gift_label2.pack(side=tk.LEFT, padx=10)
+comm_gift_entry2 = tk.Entry(comm_frame2, width=20)
+comm_gift_entry2.pack(side=tk.LEFT, padx=0)
+comm_ball_label2 = tk.Label(comm_frame2, text="释放球:")
+comm_ball_label2.pack(side=tk.LEFT, padx=10)
+comm_ball_combobox2 = ttk.Combobox(comm_frame2, width=5)
+comm_ball_combobox2["values"] = (1,2,3,4,5,6,7,8,9)  # 设置下拉列表的值
+comm_ball_combobox2.current(0)  # 设置默认选中第一项
+comm_ball_combobox2.pack(side=tk.LEFT, fill=tk.X, padx=0)
+comm_balls_label2 = tk.Label(comm_frame2, text="个")
+comm_balls_label2.pack(side=tk.LEFT, padx=0)
+comm_button2 = tk.Button(comm_frame2, text="添加", command=comm_add_to_list2, width=5)
+comm_button2.pack(side=tk.LEFT, fill=tk.X, padx=10)
+
+config1 = []
+config2 = []
+
 
 comm_table_frame = tk.Frame(root)
 comm_table_frame.pack(fill=tk.X, padx=10, pady=5)
-comm_table = tkinter.Listbox(comm_table_frame, selectmode=tkinter.BROWSE, width=90)
+comm_table = tkinter.Listbox(comm_table_frame, selectmode=tkinter.BROWSE, width=60)
 comm_table.pack(side=tk.LEFT, fill=tk.X)
-comm_table.insert(tkinter.END,f"收到 “小心心” 释放 1个球")
-comm_table.insert(tkinter.END,f"收到 “你最好看” 释放 2个球")
-comm_table.insert(tkinter.END,f"收到 “称心如意” 释放 3个球")
-comm_table.insert(tkinter.END,f"收到 “棒棒糖” 释放 4个球")
-comm_table.insert(tkinter.END,f"收到 “入团卡” 释放 5个球")
-comm_table.insert(tkinter.END,f"收到 “鲜花” 释放 6个球")
-comm_table.insert(tkinter.END,f"收到 “玫瑰” 释放 6个球")
-comm_table.insert(tkinter.END,f"收到 “粉丝团灯牌” 释放 7个球")
-comm_table_del_button = tk.Button(comm_table_frame, text="删除选中行", command=comm_remove_from_list, width=10)
-comm_table_del_button.pack(side=tk.LEFT, fill=tk.X, padx=10)
+with open('config1.json', 'r',encoding='utf8') as file:
+    config1 = json.load(file)
+for c1 in config1:
+    comm_table.insert(tkinter.END,f"收到礼物 “" + c1['gift_txt'] + "” 释放 " + c1['gift_ball'] + "个球")
+    gift_txt_array.append(c1['gift_txt'])
+    gift_ball.append(c1['gift_ball'])
+comm_table2 = tkinter.Listbox(comm_table_frame, selectmode=tkinter.BROWSE, width=60)
+comm_table2.pack(side=tk.LEFT, fill=tk.X, padx=25)
+with open('config2.json', 'r',encoding='utf8') as file:
+    config2 = json.load(file)
+for c1 in config2:
+    comm_table2.insert(tkinter.END,f"收到弹幕 “" + c1['gift_txt'] + "” 释放 " + c1['gift_ball'] + "个球")
+    chat_txt_array.append(c1['gift_txt'])
+    chat_ball.append(c1['gift_ball'])
+
+
+button_frame = tk.Frame(root)
+button_frame.pack(fill=tk.X, padx=10, pady=5)
+comm_table_del_button = tk.Button(button_frame, text="删除选中行", command=comm_remove_from_list, width=10)
+comm_table_del_button.pack(side=tk.LEFT, padx=10)
+comm_table_del_button2 = tk.Button(button_frame, text="删除选中行", command=comm_remove_from_list2, width=10)
+comm_table_del_button2.pack(side=tk.LEFT, padx=360)
 
 log_frame = tk.Frame(root)
 log_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)

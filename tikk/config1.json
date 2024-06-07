@@ -1,0 +1,42 @@
+[
+    {
+        "gift_txt": "\u5c0f\u5fc3\u5fc3",
+        "gift_ball": "1",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u4f60\u6700\u597d\u770b",
+        "gift_ball": "2",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u79f0\u5fc3\u5982\u610f",
+        "gift_ball": "3",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u68d2\u68d2\u7cd6",
+        "gift_ball": "4",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u5165\u56e2\u5361",
+        "gift_ball": "5",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u73ab\u7470",
+        "gift_ball": "6",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u9c9c\u82b1",
+        "gift_ball": "6",
+        "gif_type": "WebcastGiftMessage"
+    },
+    {
+        "gift_txt": "\u7c89\u4e1d\u56e2\u706f\u724c",
+        "gift_ball": "7",
+        "gif_type": "WebcastGiftMessage"
+    }
+]

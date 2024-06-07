@@ -1,4 +1,0 @@
-{'type': 'WebcastGiftMessage', 'content': '1个小心心', 'nickname': '丹哥', 'sec_uid': 'MS4wLjABAAAAAApA4OmpFX96sToByddn40hFKHYZwbYHHZYEeMstPog', 'id': 58892926963, 'short_id': 65971367, 'gender': 2, 'unique_id': '78892926963'}
-{'type': 'WebcastGiftMessage', 'content': '2个小心心', 'nickname': '丹哥', 'sec_uid': 'MS4wLjABAAAAAApA4OmpFX96sToByddn40hFKHYZwbYHHZYEeMstPog', 'id': 58892926963, 'short_id': 65971367, 'gender': 2, 'unique_id': '78892926963'}
-{'type': 'WebcastGiftMessage', 'content': '2个小心心', 'nickname': '丹哥', 'sec_uid': 'MS4wLjABAAAAAApA4OmpFX96sToByddn40hFKHYZwbYHHZYEeMstPog', 'id': 58892926963, 'short_id': 65971367, 'gender': 2, 'unique_id': '78892926963'}
-{'type': 'WebcastGiftMessage', 'content': '2个小心心', 'nickname': '丹哥', 'sec_uid': 'MS4wLjABAAAAAApA4OmpFX96sToByddn40hFKHYZwbYHHZYEeMstPog', 'id': 58892926963, 'short_id': 65971367, 'gender': 2, 'unique_id': '78892926963'}
