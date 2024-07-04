@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import tkinter
 
+from requests import RequestException
 from websocket import WebSocketApp
 import re
 import gzip,httpx
@@ -51,30 +52,33 @@ def write_to_log(message):
     log_text.update_idletasks()
     log_text.see(tk.END)  # 确保滚动条在最底部
 def live_info(url):
-    res = httpx.get(
-        url=url,
-        headers = {
-    'authority': 'douyin.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
-    'cache-control': 'no-cache',
-    'cookie': 'device_web_cpu_core=16; device_web_memory_size=8; xgplayer_user_id=463421106069; csrf_session_id=edf738231761a5147197973003809c11; webcast_leading_last_show_time=1694172613110; webcast_leading_total_show_times=1; webcast_local_quality=sd; ttwid=1%7CCXcnzcrsWub9rrnTk6VgAeMEKNq7MZy-Wdvg1UaPYGQ%7C1701928743%7C5dc0c9b315e2dd9feca70d6145c819071b42bc5b42a47dd73af13f8de4b34869; passport_csrf_token=8acc2de7b02b210e7df0fa8ca5e61009; passport_csrf_token_default=8acc2de7b02b210e7df0fa8ca5e61009; bd_ticket_guard_client_web_domain=2; FORCE_LOGIN=%7B%22videoConsumedRemainSeconds%22%3A180%2C%22isForcePopClose%22%3A1%7D; live_use_vvc=%22false%22; odin_tt=536f43455243c02f23b3f7d5de057073417fc22a1030f314eb8463954fe7cea95b86298f7c03e9c02d497aebe02817adc0fc4cea15527fca65c95b71ed968f5e0cc09b6bf95057e36624886254075255; download_guide=%223%2F20231221%2F0%22; ttcid=3d6ce9de911a4eb1a67e2fb7d67497bf41; webcast_local_quality=sd; volume_info=%7B%22isUserMute%22%3Afalse%2C%22isMute%22%3Afalse%2C%22volume%22%3A0.5%7D; stream_recommend_feed_params=%22%7B%5C%22cookie_enabled%5C%22%3Atrue%2C%5C%22screen_width%5C%22%3A1536%2C%5C%22screen_height%5C%22%3A864%2C%5C%22browser_online%5C%22%3Atrue%2C%5C%22cpu_core_num%5C%22%3A16%2C%5C%22device_memory%5C%22%3A8%2C%5C%22downlink%5C%22%3A10%2C%5C%22effective_type%5C%22%3A%5C%224g%5C%22%2C%5C%22round_trip_time%5C%22%3A150%7D%22; SEARCH_RESULT_LIST_TYPE=%22single%22; strategyABtestKey=%221703646674.962%22; home_can_add_dy_2_desktop=%221%22; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWl0ZXJhdGlvbi12ZXJzaW9uIjoxLCJiZC10aWNrZXQtZ3VhcmQtcmVlLXB1YmxpYy1rZXkiOiJCSDV1ODRzV0RVNUNLUStrV29pY3VwTXVIQW54TlQwVXdHcmhyYlJpUy9aL0dWSk8wbG8wWm5VM2c0bHV5WmdiR2VyVHM4clRibTV1L3V3d2VUTmtNQmc9IiwiYmQtdGlja2V0LWd1YXJkLXdlYi12ZXJzaW9uIjoxfQ%3D%3D; stream_player_status_params=%22%7B%5C%22is_auto_play%5C%22%3A1%2C%5C%22is_full_screen%5C%22%3A0%2C%5C%22is_full_webscreen%5C%22%3A0%2C%5C%22is_mute%5C%22%3A0%2C%5C%22is_speed%5C%22%3A1%2C%5C%22is_visible%5C%22%3A0%7D%22; __live_version__=%221.1.1.6573%22; __ac_nonce=0658b95de0017b6239414; __ac_signature=_02B4Z6wo00f01jLbBRgAAIDDUdHFcjMDnP4y-wGAAOlLxg4cWDe8qNUcaJmaIXqVuTl5J2.d2VPavMw3D8Q3vlgUPWe9yv1O1RLNVqMnEaKIA2qb6D41y7X3qUcxsgX7f4p.HimFS.SDlheh4a; xg_device_score=7.90435294117647; msToken=LMWbS1oDACsCIqAoJzixfCStaqDhzcqqPR0MqZLJVAD-M3Gl3_cy54vFOgkleGOu2EOTbWSM5ix65av4592yiRFX1z7iD2XVewutmL56GgGC1xsq27RNZCwpECesyQ==; tt_scid=L3aNknPQWgS3h-xdRuBNCwcAp2yCJyMhBD6sajTHIkmiS0HUGo1XJWZs0Ct7IPUY1218; pwa2=%220%7C0%7C3%7C0%22; webcast_leading_last_show_time=1703646868651; webcast_leading_total_show_times=4; live_can_add_dy_2_desktop=%221%22; msToken=regBtpnAohlBr086hglLC1nzxd6p1KQP9b_WKDmFEkjbZz43YIyM0GNcFf0ZPnFC5IipW_ble4i0bDvxicJWLHxfRFi76epsrI6YZ5Lv8MceOm-m5FiVuwSeqJCaCw==; IsDouyinActive=false',
-    'pragma': 'no-cache',
-    'referer': 'https://douyin.com/',
-    'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-},
-        cookies={
-            "__ac_nonce": "063abcffa00ed8507d599"  # 可以是任意值
-        }
-    )
+    try:
+        res = httpx.get(
+            url=url,
+            headers = {
+                'authority': 'douyin.com',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                'cache-control': 'no-cache',
+                'cookie': 'device_web_cpu_core=16; device_web_memory_size=8; xgplayer_user_id=463421106069; csrf_session_id=edf738231761a5147197973003809c11; webcast_leading_last_show_time=1694172613110; webcast_leading_total_show_times=1; webcast_local_quality=sd; ttwid=1%7CCXcnzcrsWub9rrnTk6VgAeMEKNq7MZy-Wdvg1UaPYGQ%7C1701928743%7C5dc0c9b315e2dd9feca70d6145c819071b42bc5b42a47dd73af13f8de4b34869; passport_csrf_token=8acc2de7b02b210e7df0fa8ca5e61009; passport_csrf_token_default=8acc2de7b02b210e7df0fa8ca5e61009; bd_ticket_guard_client_web_domain=2; FORCE_LOGIN=%7B%22videoConsumedRemainSeconds%22%3A180%2C%22isForcePopClose%22%3A1%7D; live_use_vvc=%22false%22; odin_tt=536f43455243c02f23b3f7d5de057073417fc22a1030f314eb8463954fe7cea95b86298f7c03e9c02d497aebe02817adc0fc4cea15527fca65c95b71ed968f5e0cc09b6bf95057e36624886254075255; download_guide=%223%2F20231221%2F0%22; ttcid=3d6ce9de911a4eb1a67e2fb7d67497bf41; webcast_local_quality=sd; volume_info=%7B%22isUserMute%22%3Afalse%2C%22isMute%22%3Afalse%2C%22volume%22%3A0.5%7D; stream_recommend_feed_params=%22%7B%5C%22cookie_enabled%5C%22%3Atrue%2C%5C%22screen_width%5C%22%3A1536%2C%5C%22screen_height%5C%22%3A864%2C%5C%22browser_online%5C%22%3Atrue%2C%5C%22cpu_core_num%5C%22%3A16%2C%5C%22device_memory%5C%22%3A8%2C%5C%22downlink%5C%22%3A10%2C%5C%22effective_type%5C%22%3A%5C%224g%5C%22%2C%5C%22round_trip_time%5C%22%3A150%7D%22; SEARCH_RESULT_LIST_TYPE=%22single%22; strategyABtestKey=%221703646674.962%22; home_can_add_dy_2_desktop=%221%22; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWl0ZXJhdGlvbi12ZXJzaW9uIjoxLCJiZC10aWNrZXQtZ3VhcmQtcmVlLXB1YmxpYy1rZXkiOiJCSDV1ODRzV0RVNUNLUStrV29pY3VwTXVIQW54TlQwVXdHcmhyYlJpUy9aL0dWSk8wbG8wWm5VM2c0bHV5WmdiR2VyVHM4clRibTV1L3V3d2VUTmtNQmc9IiwiYmQtdGlja2V0LWd1YXJkLXdlYi12ZXJzaW9uIjoxfQ%3D%3D; stream_player_status_params=%22%7B%5C%22is_auto_play%5C%22%3A1%2C%5C%22is_full_screen%5C%22%3A0%2C%5C%22is_full_webscreen%5C%22%3A0%2C%5C%22is_mute%5C%22%3A0%2C%5C%22is_speed%5C%22%3A1%2C%5C%22is_visible%5C%22%3A0%7D%22; __live_version__=%221.1.1.6573%22; __ac_nonce=0658b95de0017b6239414; __ac_signature=_02B4Z6wo00f01jLbBRgAAIDDUdHFcjMDnP4y-wGAAOlLxg4cWDe8qNUcaJmaIXqVuTl5J2.d2VPavMw3D8Q3vlgUPWe9yv1O1RLNVqMnEaKIA2qb6D41y7X3qUcxsgX7f4p.HimFS.SDlheh4a; xg_device_score=7.90435294117647; msToken=LMWbS1oDACsCIqAoJzixfCStaqDhzcqqPR0MqZLJVAD-M3Gl3_cy54vFOgkleGOu2EOTbWSM5ix65av4592yiRFX1z7iD2XVewutmL56GgGC1xsq27RNZCwpECesyQ==; tt_scid=L3aNknPQWgS3h-xdRuBNCwcAp2yCJyMhBD6sajTHIkmiS0HUGo1XJWZs0Ct7IPUY1218; pwa2=%220%7C0%7C3%7C0%22; webcast_leading_last_show_time=1703646868651; webcast_leading_total_show_times=4; live_can_add_dy_2_desktop=%221%22; msToken=regBtpnAohlBr086hglLC1nzxd6p1KQP9b_WKDmFEkjbZz43YIyM0GNcFf0ZPnFC5IipW_ble4i0bDvxicJWLHxfRFi76epsrI6YZ5Lv8MceOm-m5FiVuwSeqJCaCw==; IsDouyinActive=false',
+                'pragma': 'no-cache',
+                'referer': 'https://douyin.com/',
+                'sec-ch-ua': '"Google Chrome";v="119", "Chromium";v="119", "Not?A_Brand";v="24"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Windows"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'same-origin',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+            },
+            cookies={
+                "__ac_nonce": "063abcffa00ed8507d599"  # 可以是任意值
+            }
+        )
+    except Exception as e:
+        return -1, '', 'room_title', 'room_user_count', 'wss_url', 'ttwid'
     room_id = re.findall(r'\\"roomId\\":\\"(.*?)\\"', res.text)[0]
     room_title = ''
     room_user_count =''
@@ -85,9 +89,12 @@ def live_info(url):
     wss_url=f'wss://webcast5-ws-web-lq.douyin.com/webcast/im/push/v2/?app_name=douyin_web&version_code=180800&webcast_sdk_version=1.0.12&update_version_code=1.0.12&compress=gzip&device_platform=web&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Mozilla&browser_version=5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/119.0.0.0%20Safari/537.36&browser_online=true&tz_name=Asia/Shanghai&cursor=t-1703251890105_r-1_d-1_u-1_fh-7315409832168641573&internal_ext=internal_src:dim|wss_push_room_id:{room_id}|wss_push_did:7309728240302016034|dim_log_id:202312222131295DBE730567E4322E82E2|first_req_ms:1703251889982|fetch_time:1703251890105|seq:1|wss_info:0-1703251890105-0-0|wrds_kvs:WebcastActivityEmojiGroupsMessage-1703247544419620387_WebcastRoomStreamAdaptationMessage-1703251871345099618_WebcastInRoomBannerMessage-GrowthCommonBannerASubSyncKey-1703251614011692005_LotteryInfoSyncData-1703250711729232057_WebcastRoomStatsMessage-1703251888588310545_DoubleLikeSyncData-1703251618744190204_WebcastRoomRankMessage-1703251880101553898&host=https://live.douyin.com&aid=6383&live_id=1&did_rule=3&endpoint=live_pc&support_wrds=1&user_unique_id=7309728240302016034&im_path=/webcast/im/fetch/&identity=audience&need_persist_msg_count=15&room_id={room_id}&heartbeatDuration=0&signature={sign["X-Bogus"]}'
     # wss_url=f'wss://webcast5-ws-web-hl.douyin.com/webcast/im/push/v2/?app_name=douyin_web&version_code=180800&webcast_sdk_version=1.0.8&update_version_code=1.0.8&compress=gzip&device_platform=web&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Mozilla&browser_version=5.0%20(Windows%20NT%2010.0;%20Win64;%20x64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/114.0.0.0%20Safari/537.36&browser_online=true&tz_name=Asia/Shanghai&cursor=r-1_d-1_u-1_h-1_t-1692620078416&internal_ext=internal_src:dim|wss_push_room_id:{room_id}|wss_push_did:7268909383177553447|dim_log_id:202308212014381EDBA25C71790E20C55A|first_req_ms:1692620078342|fetch_time:1692620078416|seq:1|wss_info:0-1692620078416-0-0|wrds_kvs:WebcastRoomRankMessage-1692619896739112291_WebcastRoomStatsMessage-1692620076734383562&host=https://live.douyin.com&aid=6383&live_id=1&did_rule=3&endpoint=live_pc&support_wrds=1&user_unique_id=&im_path=/webcast/im/fetch/&identity=audience&room_id={room_id}&heartbeatDuration=0&signature={sign["X-Bogus"]}'
     ttwid = res.cookies['ttwid']
-    return room_id, room_title, room_user_count, wss_url, ttwid
+    return 0, room_id, room_title, room_user_count, wss_url, ttwid
 def on_open(ws):
-    print('on_open...')
+    global on_error_status
+    if on_error_status == 0:
+        print('on_open...')
+
 def on_message(ws, content):
     global balls,gift_tmp_array,gift_tmp_array_idx,ff,chat_txt_array,chat_ball,gift_txt_array,gift_ball
 
@@ -148,16 +155,23 @@ def on_message(ws, content):
 
 
 
-
+on_error_status=0
 def on_error(ws, content):
-    print("on_error")
-    print(content)
-    write_to_log("=====================>程序报错：请手动停止采集再启动======")
-    write_to_log(str(content))
+    global stopping,on_error_status
+    if on_error_status == 0:
+        print("on_error")
+        print(content)
+        write_to_log("=====================>程序报错，正在结束======")
+        write_to_log(str(content))
+        write_to_log("=====================>程序重新启动======")
+        on_error_status = 1
+    start_ws()
 
 
 def on_close(ws, content, ppp):
-    print("on_close")
+    global on_error_status
+    if on_error_status == 0:
+        print("on_close")
 
 def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
     def parse_time(timestamp):
@@ -409,11 +423,23 @@ def parse_message(message: webcast_proto2_pb2.mwebcastimMessage):
             '''
             https://live.douyin.com/webcast/user/?aid=6383&live_id=1&device_platform=web&language=zh-CN&target_uid=111111&sec_target_uid=MS4wLjABAAAAvOEA4the1TgVpfU5Fqb1deZnw4gfJ1oxOYMEZNIHwqU
             '''
+
+room_id=0
+room_title=0
+room_user_count=0
+wss_url=0
+ttwid=0
+
 def run(web_url):
-    global ws
+    global ws,room_id,room_title,room_user_count,wss_url,ttwid
+    live_status=-1
 #    for i in web_url.split(','):
     # web_url = "https://live.douyin.com/567789235524"
-    room_id, room_title, room_user_count, wss_url, ttwid = live_info(web_url)
+    print("run testtest.")
+    while live_status == -1:
+        live_status, room_id, room_title, room_user_count, wss_url, ttwid = live_info(web_url)
+    print("run testtest q.")
+
     ws = WebSocketApp(
         url=wss_url,
         header={
@@ -460,7 +486,7 @@ def send_job():
                 ser.write(message)
                 balls_tmp = balls
                 balls = 0
-                write_to_log("  ==>串口发送释放" + str(balls_tmp) + "个小球\n")
+                write_to_log("    ==>串口发送释放" + str(balls_tmp) + "个小球")
                 time.sleep(2.8 * balls_tmp)
                 message = bytes.fromhex('A0 01 00 A1')
                 ser.write(message)
@@ -513,8 +539,58 @@ def start_collection():
     print("t1.start()")
     write_to_log("===============================>启动成功<==================")
 
+
+def start_connect():
+    # global redis_client,redis_client2
+    global uid_list,ff,send_job_run,t_send,balls
+
+    uid_list=[]
+    url = live_room_entry.get()
+    if len(url) == 0:
+        write_to_log("===============================>请输入直播间地址<==================")
+        return
+
+    write_to_log("===============================>启动中...<==================")
+    balls = 0
+    filename = url.split('/')[-1] + '.txt'
+
+    ff = open(filename, 'a+',encoding='utf8')
+
+    t_send = threading.Thread(target=run, args=(url,))
+    t_send.setDaemon(True)
+    t_send.start()
+    print("t_send.start()")
+    write_to_log("===============================>启动成功<==================")
+
+def start_ws():
+    global ws,room_id,room_title,room_user_count,wss_url,ttwid
+    ws = WebSocketApp(
+        url=wss_url,
+        header={
+                'Pragma': 'no-cache',
+                'Origin': 'https://live.douyin.com',
+                'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+                'Sec-WebSocket-Key': 'IVcHb4wVkV7TD7K/iAWSdw==',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+                'Upgrade': 'websocket',
+                'Cache-Control': 'no-cache',
+                'Connection': 'Upgrade',
+                'Sec-WebSocket-Version': '13',
+                'Sec-WebSocket-Extensions': 'permessage-deflate; client_max_window_bits',
+        },
+        cookie=f"ttwid={ttwid}",
+        on_open=on_open,
+        on_message=on_message,
+        on_error=on_error,
+        on_close=on_close,
+    )
+    wst = threading.Thread(target=ws.run_forever)
+    wst.setDaemon(True)
+    wst.start()
+
+stopping = 0
 def stop_collection():
-    global send_job_run,t_send,balls
+    global send_job_run,t_send,balls,stopping
     # 停止 WebSocket 连接
     # global ws
     if ws:
@@ -531,6 +607,15 @@ def stop_collection():
     balls = 0
     print("stop_collection finished.")
 
+#停止网络连接
+def stop_connect():
+    global send_job_run,t_send,balls,stopping,t_send
+    # 停止 WebSocket 连接
+    # global ws
+    if ws:
+        ws.close()
+    stopping = 0
+    print("stop_connect finished.")
 
 
 com_ports = []
@@ -729,5 +814,3 @@ stop_button.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
 if __name__ == '__main__':
     root.mainloop()
-
-
