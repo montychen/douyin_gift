@@ -4,6 +4,7 @@
 
 ### 安装依赖
 ```bash
+pip install requests
 pip install protobuf==3.20.2
 pip install websocket-client
 pip install httpx
@@ -13,13 +14,13 @@ pip install pyinstaller
 pip install APScheduler
 ```
 
-## 乒乓球 table_tennis 
+## 乒乓球 table_tennis
 #### 直接运行  自动发射乒乓球
 ```bash
 python dytxt_table_tennis.py
 ```
 
-#### 打包程序输出exe执行文件 自动发射乒乓球 
+#### 打包程序输出exe执行文件 自动发射乒乓球
 打包命令
 ``` bash
 pyinstaller -w -F dytxt_table_tennis.py   # 前提你得安装pyinstaller
@@ -32,7 +33,7 @@ pyinstaller -w -F dytxt_table_tennis.py   # 前提你得安装pyinstaller
 python dytxt_marble.py
 ```
 
-#### 打包程序输出exe执行文件 自动发射乒乓球 
+#### 打包程序输出exe执行文件 自动发射乒乓球
 打包命令
 ``` bash
 pyinstaller -w -F dytxt_marble.py   # 前提你得安装pyinstaller
